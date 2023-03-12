@@ -19,7 +19,7 @@ pip install -r requirements.txt
 
 After installing the dependencies, you can access summaries for accounts from the following endpoint:
 
-http://localhost:8000/accountDescription/<username>
+http://localhost:8000/accountDescription/username
 
 
 Replace `<username>` with the screen name of the Twitter user you want to generate a summary for, without the 
@@ -29,11 +29,11 @@ other endpoints are :
 
 http://localhost:8000/accounts
 
-http://localhost:8000/sentiment/<username>
+http://localhost:8000/sentiment/username
 
-http://localhost:8000/audience/<username>
+http://localhost:8000/audience/twitterhandle
 
-http://localhost:8000/tweets/<username>
+http://localhost:8000/tweets/username
 
 
 
