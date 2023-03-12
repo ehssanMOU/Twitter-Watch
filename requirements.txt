@@ -1,0 +1,10 @@
+Flask
+flask_restful
+tweepy
+textblob
+nltk
+openai
+json
+datetime
+re
+string
