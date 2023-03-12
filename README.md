@@ -29,9 +29,11 @@ other endpoints are :
 
 http://localhost:8000/accounts
 
-http://localhost:8000/sentiment
+http://localhost:8000/sentiment/<username>
 
-http://localhost:8000//audience/<twitterhandle>
+http://localhost:8000/audience/<username>
+
+http://localhost:8000/tweets/<username>
 
 
 

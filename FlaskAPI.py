@@ -26,33 +26,59 @@ def threads():
         return "please retry again. Something went wrong"
 
 
-@app.route('/sentiment')
-def sentimentAnal():
+@app.route('/sentiment/<username>')
+def sentimentAnal(username):
+    author = "@"+username
     sentiment_data = {}
 
     try:
 
         json_data = twitter_api.get_json_data()
 
-        for account in json_data:
+        sentiment_data[author] = {}
+        sentiment_data[author]['tweet'] = []
 
-            print(account)
+        sentiment_data[author]['score'] = json_data[author]['Account Positivity']
 
-            sentiment_data[account] = {}
-            sentiment_data[account]['tweet'] = []
+        for data in json_data[author]['tweetDetails']:
 
-            sentiment_data[account]['score'] = json_data[account]['Account Positivity']
+            tweet_and_tweet_score = {'tweet': data['tweet'], 'score': data['score'], 'replies': []}
 
-            for data in json_data[account]['tweetDetails']:
+            for reply in data['replies']:
+                reply_and_reply_score = {'reply': reply['tweet'], 'score': reply['positivity']}
 
-                tweet_and_tweet_score = {'tweet': data['tweet'], 'score': data['score'], 'replies': []}
+                tweet_and_tweet_score['replies'].append(reply_and_reply_score)
 
-                for reply in data['replies']:
-                    reply_and_reply_score = {'reply': reply['tweet'], 'score': reply['positivity']}
+            sentiment_data[author]['tweet'].append(tweet_and_tweet_score)
 
-                    tweet_and_tweet_score['replies'].append(reply_and_reply_score)
+        return sentiment_data
 
-                sentiment_data[account]['tweet'].append(tweet_and_tweet_score)
+    except:
+
+        return "please make sure the name you provided is correct or make sure to first got to accounts page"
+
+@app.route('/tweets/<username>')
+def tweets(username):
+    author = "@"+username
+    sentiment_data = {}
+
+    try:
+
+        json_data = twitter_api.get_json_data()
+
+        sentiment_data[author] = {}
+        sentiment_data[author]['tweet'] = []
+
+        for data in json_data[author]['tweetDetails']:
+
+            tweet_and_tweet_score = {'tweet': data['tweet'], 'replies': []}
+
+            for reply in data['replies']:
+                reply_and_reply_score = {'reply': reply['tweet']}
+
+                tweet_and_tweet_score['replies'].append(reply_and_reply_score)
+
+            sentiment_data[author]['tweet'].append(tweet_and_tweet_score)
 
         return sentiment_data
 
@@ -66,12 +92,11 @@ def getDescription(username):
     author = '@' + username
 
 
-    try:
-        return twitter_api.accountDescription(author)
 
-    except:
+    return twitter_api.accountDescription(author)
 
-        return "please make sure the name you provided is correct or make sure to first got to accounts page"
+
+    #return "please make sure the name you provided is correct or make sure to first got to accounts page"
 
 
 
